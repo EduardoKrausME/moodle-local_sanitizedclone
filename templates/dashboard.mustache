@@ -1,0 +1,71 @@
+{{!
+    @template local_sanitizedclone/dashboard
+    Operation overview, reusable profiles and read-only inventory. All mutations
+    from this screen affect ONLY plugin metadata and CLI authorisation.
+}}
+<div class="local-sanitizedclone container-fluid" data-region="sanitizedclone">
+    <p class="alert alert-warning">{{#str}} safetywarning, local_sanitizedclone {{/str}}</p>
+    <section class="mb-4">
+        <h3>{{#str}} profiles, local_sanitizedclone {{/str}}</h3>
+        {{#canmanage}}
+        <form method="post" action="{{actionurl}}" class="form-inline mb-3">
+            <input type="hidden" name="sesskey" value="{{sesskey}}">
+            <input type="hidden" name="action" value="create">
+            <label for="sc-profile-name" class="mr-2">{{#str}} profilename, local_sanitizedclone {{/str}}</label>
+            <input id="sc-profile-name" name="name" type="text" maxlength="120" required class="form-control mr-2">
+            <fieldset class="d-flex flex-wrap mb-2">
+                <legend>{{#str}} stageoptions, local_sanitizedclone {{/str}}</legend>
+                {{#stageoptions}}
+                <label class="mr-3"><input type="checkbox" name="{{field}}" value="1" checked> {{label}}</label>
+                {{/stageoptions}}
+            </fieldset>
+            <button type="submit" class="btn btn-secondary">{{#str}} createprofile, local_sanitizedclone {{/str}}</button>
+        </form>
+        {{/canmanage}}
+        {{#profiles}}
+        <p><a href="{{previewurl}}">{{name}}</a></p>
+        {{/profiles}}
+        {{^hasprofiles}}<p>{{#str}} noprofiles, local_sanitizedclone {{/str}}</p>{{/hasprofiles}}
+    </section>
+    {{#preview}}
+    <section class="mb-4">
+        <h3>{{#str}} preview, local_sanitizedclone {{/str}}: {{name}}</h3>
+        <p>{{#str}} planfingerprint, local_sanitizedclone {{/str}} <code>{{hash}}</code></p>
+        <p>{{#str}} blockers, local_sanitizedclone {{/str}}: <strong>{{blockers}}</strong></p>
+        <h4>{{#str}} analyzed, local_sanitizedclone {{/str}}</h4>
+        <table class="generaltable table table-striped">
+            <thead><tr><th>{{#str}} source, local_sanitizedclone {{/str}}</th><th>{{#str}} stage, local_sanitizedclone {{/str}}</th><th>{{#str}} count, local_sanitizedclone {{/str}}</th></tr></thead>
+            <tbody>{{#known}}<tr><td>{{source}}</td><td>{{action}}</td><td>{{count}}</td></tr>{{/known}}</tbody>
+        </table>
+        <h4>{{#str}} unreviewed, local_sanitizedclone {{/str}}</h4>
+        <table class="generaltable table table-striped">
+            <thead><tr><th>{{#str}} source, local_sanitizedclone {{/str}}</th><th>{{#str}} reason, local_sanitizedclone {{/str}}</th><th>{{#str}} count, local_sanitizedclone {{/str}}</th></tr></thead>
+            <tbody>{{#unknown}}<tr><td>{{source}}</td><td>{{reason}}</td><td>{{count}}</td></tr>{{/unknown}}</tbody>
+        </table>
+        {{#canauthorize}}
+        <form method="post" action="{{actionurl}}">
+            <input type="hidden" name="action" value="authorize">
+            <input type="hidden" name="profileid" value="{{id}}">
+            <input type="hidden" name="sesskey" value="{{sesskey}}">
+            <div class="form-group">
+                <label for="sc-destination">{{#str}} destinationid, local_sanitizedclone {{/str}}</label>
+                <input id="sc-destination" type="text" name="destinationid" minlength="12" maxlength="64" required class="form-control">
+            </div>
+            <div class="form-check mb-3">
+                <input id="sc-confirm" type="checkbox" name="confirm" value="1" required class="form-check-input">
+                <label for="sc-confirm" class="form-check-label">{{#str}} confirmtext, local_sanitizedclone {{/str}}</label>
+            </div>
+            <button type="submit" class="btn btn-warning">{{#str}} authorizecli, local_sanitizedclone {{/str}}</button>
+        </form>
+        {{/canauthorize}}
+    </section>
+    {{/preview}}
+    <section>
+        <h3>{{#str}} operations, local_sanitizedclone {{/str}}</h3>
+        <table class="generaltable table table-striped" id="local-sc-operations">
+            <thead><tr><th>{{#str}} operation, local_sanitizedclone {{/str}}</th><th>{{#str}} status, local_sanitizedclone {{/str}}</th><th>{{#str}} destinationid, local_sanitizedclone {{/str}}</th><th>{{#str}} progress, local_sanitizedclone {{/str}}</th><th>{{#str}} created, local_sanitizedclone {{/str}}</th><th>{{#str}} cli, local_sanitizedclone {{/str}}</th></tr></thead>
+            <tbody>{{#operations}}<tr><td>{{id}}</td><td>{{state}}</td><td>{{destinationid}}</td><td>{{progress}}</td><td>{{timecreated}}</td><td><code>{{command}}</code></td></tr>{{/operations}}</tbody>
+        </table>
+        {{^hasoperations}}<p>{{#str}} nooperations, local_sanitizedclone {{/str}}</p>{{/hasoperations}}
+    </section>
+</div>
