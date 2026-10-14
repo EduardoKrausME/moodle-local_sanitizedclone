@@ -24,7 +24,6 @@
 
 namespace local_sanitizedclone\local;
 
-
 /**
  * batch processor implementation.
  */
@@ -82,8 +81,8 @@ final class batch_processor {
             }
             $started = microtime(true);
             // A nested rollback invalidates the caller's Moodle delegated transaction.
-        // The owner of an existing transaction must handle its rollback.
-        $tx = $DB->is_transaction_started() ? null : $DB->start_delegated_transaction();
+            // The owner of an existing transaction must handle its rollback.
+            $tx = $DB->is_transaction_started() ? null : $DB->start_delegated_transaction();
             try {
                 $changed = 0;
                 foreach ($rows as $record) {
