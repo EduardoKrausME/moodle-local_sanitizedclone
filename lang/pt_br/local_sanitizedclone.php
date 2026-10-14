@@ -68,6 +68,9 @@ $string['purgenotallowed'] = 'A limpeza exige operação finalizada e mais de 30
 $string['purgeusage'] = 'Uso: php local/sanitizedclone/cli/purge.php --operation=ID --attestation=/secure/destination.json --confirm-isolated --confirm-purge';
 $string['reason'] = 'Motivo';
 $string['safetywarning'] = 'Atenção: nunca execute na produção. A execução exige declaração do destino isolado e segredo independente. Fontes desconhecidas impedem aprovação.';
+$string['sanitizedclone%3Aauthorize'] = 'Autorizar sanitização de cópia isolada';
+$string['sanitizedclone%3Amanageprofiles'] = 'Gerenciar perfis de sanitização';
+$string['sanitizedclone%3Aview'] = 'Visualizar painel de sanitização';
 $string['source'] = 'Fonte de dados';
 $string['stage'] = 'Sanitizador';
 $string['stageassignments'] = 'Textos de tarefas';

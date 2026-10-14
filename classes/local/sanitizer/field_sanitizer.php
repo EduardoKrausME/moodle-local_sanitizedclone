@@ -75,7 +75,7 @@ final class field_sanitizer implements sanitizer_interface {
                                 'password' => '*',
                                 'country' => '',
                                 'lang' => 'en',
-                                default => 'sc_' . substr($token, 0, 18),
+                                default => 'sc_' . substr($token, 0, 16),
                             };
                         } else {
                             // Stable fictional replacement for recognised free-text fields only.

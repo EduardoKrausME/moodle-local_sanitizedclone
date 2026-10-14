@@ -68,6 +68,9 @@ $string['purgenotallowed'] = 'Cleanup is restricted to operations older than 30 
 $string['purgeusage'] = 'Usage: php local/sanitizedclone/cli/purge.php --operation=ID --attestation=/secure/destination.json --confirm-isolated --confirm-purge';
 $string['reason'] = 'Reason';
 $string['safetywarning'] = 'Danger: do not run against production. An isolated destination attestation and separate secret are required. Unknown sources always block approval.';
+$string['sanitizedclone%3Aauthorize'] = 'Authorize sanitization of an isolated copy';
+$string['sanitizedclone%3Amanageprofiles'] = 'Manage sanitization profiles';
+$string['sanitizedclone%3Aview'] = 'View sanitized clone dashboard';
 $string['source'] = 'Data source';
 $string['stage'] = 'Sanitizer stage';
 $string['stageassignments'] = 'Assignment text';

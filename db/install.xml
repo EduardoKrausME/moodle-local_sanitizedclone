@@ -60,7 +60,6 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="operationfk" TYPE="foreign" FIELDS="operationid" REFTABLE="local_sanitizedclone_operation" REFFIELDS="id"/>
       </KEYS>
-      <INDEXES><INDEX NAME="opidx" UNIQUE="false" FIELDS="operationid"/></INDEXES>
     </TABLE>
   </TABLES>
 </XMLDB>

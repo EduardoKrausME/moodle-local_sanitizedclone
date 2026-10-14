@@ -30,6 +30,8 @@ final class resume_test extends \advanced_testcase {
     public function test_batch_failure_rolls_back_and_retry_is_idempotent(): void {
         global $DB;
         $this->resetAfterTest();
+        // A deliberate rollback must not dispose PHPUnit's enclosing transaction.
+        $this->preventResetByRollback();
         $profileid = $DB->insert_record('local_sanitizedclone_profile', (object) [
             'name' => 'Example', 'configjson' => '{}', 'timecreated' => time(),
         ]);

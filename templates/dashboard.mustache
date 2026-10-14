@@ -23,7 +23,7 @@
         </form>
         {{/canmanage}}
         {{#profiles}}
-        <p><a href="{{previewurl}}">{{name}}</a></p>
+        <p><a href="{{{previewurl}}}">{{name}}</a></p>
         {{/profiles}}
         {{^hasprofiles}}<p>{{#str}} noprofiles, local_sanitizedclone {{/str}}</p>{{/hasprofiles}}
     </section>
