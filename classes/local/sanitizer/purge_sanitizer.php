@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Purging disposable security material and raw logs.
@@ -24,31 +24,46 @@
 
 namespace local_sanitizedclone\local\sanitizer;
 
-defined('MOODLE_INTERNAL') || die();
 
 use local_sanitizedclone\local\batch_processor;
 use local_sanitizedclone\local\mapper;
 
+/**
+ * purge sanitizer implementation.
+ */
 final class purge_sanitizer implements sanitizer_interface {
     /** @var string */
     private string $stage;
     /** @var string[] */
     private array $tables;
 
-    /** @param string[] $tables */
+    /**
+     * Initializes the component configuration.
+     *
+     * @param string[] $tables
+     */
     public function __construct(string $stage, array $tables) {
         $this->stage = $stage;
         $this->tables = $tables;
     }
 
+    /**
+     * Returns the sanitization stage name.
+     */
     public function name(): string {
         return $this->stage;
     }
 
+    /**
+     * Lists the tables handled by this stage.
+     */
     public function tables(): array {
         return $this->tables;
     }
 
+    /**
+     * Executes the sanitization stage.
+     */
     public function execute(int $operationid, mapper $mapper): void {
         foreach ($this->tables as $table) {
             batch_processor::clear($operationid, $this->stage . ':' . $table, $table);

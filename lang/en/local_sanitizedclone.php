@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Language strings.
@@ -71,6 +71,9 @@ $string['safetywarning'] = 'Danger: do not run against production. An isolated d
 $string['sanitizedclone%3Aauthorize'] = 'Authorize sanitization of an isolated copy';
 $string['sanitizedclone%3Amanageprofiles'] = 'Manage sanitization profiles';
 $string['sanitizedclone%3Aview'] = 'View sanitized clone dashboard';
+$string['sanitizedclone:authorize'] = 'Authorise sanitization of an isolated clone';
+$string['sanitizedclone:manageprofiles'] = 'Manage sanitization profiles';
+$string['sanitizedclone:view'] = 'View the clone sanitization dashboard';
 $string['source'] = 'Data source';
 $string['stage'] = 'Sanitizer stage';
 $string['stageassignments'] = 'Assignment text';

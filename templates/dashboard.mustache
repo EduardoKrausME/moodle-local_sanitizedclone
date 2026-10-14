@@ -8,7 +8,7 @@
     <section class="mb-4">
         <h3>{{#str}} profiles, local_sanitizedclone {{/str}}</h3>
         {{#canmanage}}
-        <form method="post" action="{{actionurl}}" class="form-inline mb-3">
+        <form method="post" action="{{{actionurl}}}" class="form-inline mb-3">
             <input type="hidden" name="sesskey" value="{{sesskey}}">
             <input type="hidden" name="action" value="create">
             <label for="sc-profile-name" class="mr-2">{{#str}} profilename, local_sanitizedclone {{/str}}</label>
@@ -43,7 +43,7 @@
             <tbody>{{#unknown}}<tr><td>{{source}}</td><td>{{reason}}</td><td>{{count}}</td></tr>{{/unknown}}</tbody>
         </table>
         {{#canauthorize}}
-        <form method="post" action="{{actionurl}}">
+        <form method="post" action="{{{actionurl}}}">
             <input type="hidden" name="action" value="authorize">
             <input type="hidden" name="profileid" value="{{id}}">
             <input type="hidden" name="sesskey" value="{{sesskey}}">

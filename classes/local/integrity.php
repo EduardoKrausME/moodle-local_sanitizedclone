@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Read-only core relational checks, supporting Moodle 4.5/5.x schema differences.
@@ -24,10 +24,16 @@
 
 namespace local_sanitizedclone\local;
 
-defined('MOODLE_INTERNAL') || die();
 
+/**
+ * integrity implementation.
+ */
 final class integrity {
-    /** @return array{checks: array, violations: int} */
+    /**
+     * Checks the data integrity requirements.
+     *
+     * @return array{checks: array, violations: int}
+     */
     public static function check(): array {
         global $DB;
         $relations = [

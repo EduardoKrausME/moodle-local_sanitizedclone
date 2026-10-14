@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Fail-closed inventory of known and unreviewed data sources.
@@ -24,10 +24,12 @@
 
 namespace local_sanitizedclone\local;
 
-defined('MOODLE_INTERNAL') || die();
 
 use local_sanitizedclone\local\sanitizer\files_sanitizer;
 
+/**
+ * inventory implementation.
+ */
 final class inventory {
     /**
      * Whole-table coverage is intentionally NOT inferred from a few handled columns.

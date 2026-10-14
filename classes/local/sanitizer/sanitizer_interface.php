@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Third-party sanitizer extension contract.
@@ -24,8 +24,10 @@
 
 namespace local_sanitizedclone\local\sanitizer;
 
-defined('MOODLE_INTERNAL') || die();
 
+/**
+ * sanitizer interface implementation.
+ */
 interface sanitizer_interface {
     /** Stable checkpoint/manifest stage name. */
     public function name(): string;

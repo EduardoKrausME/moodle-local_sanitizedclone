@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * CLI cleanup for expired, finished operation checkpoints/audit entries.
@@ -52,9 +52,9 @@ try {
     try {
         $tx = $DB->start_delegated_transaction();
         try {
-        $DB->delete_records('local_sanitizedclone_checkpoint', ['operationid' => $id]);
-        $DB->delete_records('local_sanitizedclone_audit', ['operationid' => $id]);
-        $tx->allow_commit();
+            $DB->delete_records('local_sanitizedclone_checkpoint', ['operationid' => $id]);
+            $DB->delete_records('local_sanitizedclone_audit', ['operationid' => $id]);
+            $tx->allow_commit();
         } catch (\Throwable $e) {
             $tx->rollback($e);
         }

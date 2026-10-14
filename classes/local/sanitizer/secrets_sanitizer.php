@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Namespaced secret-setting scrubber (does not inspect/log setting values).
@@ -24,20 +24,31 @@
 
 namespace local_sanitizedclone\local\sanitizer;
 
-defined('MOODLE_INTERNAL') || die();
 
 use local_sanitizedclone\local\batch_processor;
 use local_sanitizedclone\local\mapper;
 
+/**
+ * secrets sanitizer implementation.
+ */
 final class secrets_sanitizer implements sanitizer_interface {
+    /**
+     * Returns the sanitization stage name.
+     */
     public function name(): string {
         return 'secrets';
     }
 
+    /**
+     * Lists the tables handled by this stage.
+     */
     public function tables(): array {
         return ['config', 'config_plugins', 'oauth2_issuer'];
     }
 
+    /**
+     * Executes the sanitization stage.
+     */
     public function execute(int $operationid, mapper $mapper): void {
         foreach (['config', 'config_plugins'] as $table) {
             // These are legitimate Moodle keys; only known key shapes are cleared.

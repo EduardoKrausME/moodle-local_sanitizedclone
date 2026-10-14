@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Explicit column-level sanitization, avoiding serialized and binary columns.
@@ -24,31 +24,46 @@
 
 namespace local_sanitizedclone\local\sanitizer;
 
-defined('MOODLE_INTERNAL') || die();
 
 use local_sanitizedclone\local\batch_processor;
 use local_sanitizedclone\local\mapper;
 
+/**
+ * field sanitizer implementation.
+ */
 final class field_sanitizer implements sanitizer_interface {
     /** @var string */
     private string $stage;
     /** @var array<string, string[]> */
     private array $spec;
 
-    /** @param array<string, string[]> $spec */
+    /**
+     * Initializes the component configuration.
+     *
+     * @param array<string, string[]> $spec
+     */
     public function __construct(string $stage, array $spec) {
         $this->stage = $stage;
         $this->spec = $spec;
     }
 
+    /**
+     * Returns the sanitization stage name.
+     */
     public function name(): string {
         return $this->stage;
     }
 
+    /**
+     * Lists the tables handled by this stage.
+     */
     public function tables(): array {
         return array_keys($this->spec);
     }
 
+    /**
+     * Executes the sanitization stage.
+     */
     public function execute(int $operationid, mapper $mapper): void {
         foreach ($this->spec as $table => $fields) {
             $actual = batch_processor::columns($table);

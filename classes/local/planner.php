@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Immutable read-only operation plans.
@@ -24,10 +24,17 @@
 
 namespace local_sanitizedclone\local;
 
-defined('MOODLE_INTERNAL') || die();
 
+/**
+ * planner implementation.
+ */
 final class planner {
-    /** @param array<string,bool> $settings @return array */
+    /**
+     * Creates an operation plan.
+     *
+     * @param array<string,bool> $settings
+     * @return array
+     */
     public static function create(array $settings): array {
         policy::enforce($settings);
         $inventory = inventory::collect();
@@ -41,6 +48,9 @@ final class planner {
         return ['policy' => $settings, 'inventory' => $inventory, 'schema' => 1];
     }
 
+    /**
+     * Calculates the immutable plan fingerprint.
+     */
     public static function hash(array $plan): string {
         return hash('sha256', json_encode($plan, JSON_THROW_ON_ERROR));
     }

@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Locked CLI-only executor with fail-closed completion status.
@@ -24,10 +24,16 @@
 
 namespace local_sanitizedclone\local;
 
-defined('MOODLE_INTERNAL') || die();
 
+/**
+ * executor implementation.
+ */
 final class executor {
-    /** @return array Technical manifest without record data. */
+    /**
+     * Executes authorised sanitization.
+     *
+     * @return array Technical manifest without record data.
+     */
     public static function run(int $operationid, string $attestationfile, bool $confirmed): array {
         global $DB;
         $operation = $DB->get_record('local_sanitizedclone_operation', ['id' => $operationid], '*', MUST_EXIST);

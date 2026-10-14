@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Delete sensitive attachments using File API, preserving ordinary course assets.
@@ -24,11 +24,13 @@
 
 namespace local_sanitizedclone\local\sanitizer;
 
-defined('MOODLE_INTERNAL') || die();
 
 use local_sanitizedclone\local\batch_processor;
 use local_sanitizedclone\local\mapper;
 
+/**
+ * files sanitizer implementation.
+ */
 final class files_sanitizer implements sanitizer_interface {
     /** @var array<string, string[]> Deliberately narrow file-area allowlist. */
     public const AREAS = [
@@ -37,14 +39,23 @@ final class files_sanitizer implements sanitizer_interface {
         'user' => ['private', 'draft', 'profile'],
     ];
 
+    /**
+     * Returns the sanitization stage name.
+     */
     public function name(): string {
         return 'files';
     }
 
+    /**
+     * Lists the tables handled by this stage.
+     */
     public function tables(): array {
         return [];
     }
 
+    /**
+     * Executes the sanitization stage.
+     */
     public function execute(int $operationid, mapper $mapper): void {
         global $DB;
         $storage = get_file_storage();

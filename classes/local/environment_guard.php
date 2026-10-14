@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Independent, destination-specific CLI attestation.
@@ -24,8 +24,10 @@
 
 namespace local_sanitizedclone\local;
 
-defined('MOODLE_INTERNAL') || die();
 
+/**
+ * environment guard implementation.
+ */
 final class environment_guard {
     /**
      * Attestation MUST live outside dirroot and dataroot and be generated on the clone.

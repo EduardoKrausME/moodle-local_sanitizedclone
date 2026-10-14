@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Clone sanitization audit event.
@@ -24,19 +24,30 @@
 
 namespace local_sanitizedclone\event;
 
-defined('MOODLE_INTERNAL') || die();
 
+/**
+ * operation finished implementation.
+ */
 final class operation_finished extends \core\event\base {
+    /**
+     * Initializes the Moodle event metadata.
+     */
     protected function init(): void {
         $this->data['crud'] = 'c';
         $this->data['edulevel'] = self::LEVEL_OTHER;
         $this->data['objecttable'] = 'local_sanitizedclone_operation';
     }
 
+    /**
+     * Returns the translated event name.
+     */
     public static function get_name(): string {
         return get_string('eventoperation_finished', 'local_sanitizedclone');
     }
 
+    /**
+     * Returns the event description.
+     */
     public function get_description(): string {
         return get_string('eventdescriptionoperation_finished', 'local_sanitizedclone', $this->objectid);
     }

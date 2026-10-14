@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Deterministic, collision-resistant pseudonyms.
@@ -24,12 +24,17 @@
 
 namespace local_sanitizedclone\local;
 
-defined('MOODLE_INTERNAL') || die();
 
+/**
+ * mapper implementation.
+ */
 final class mapper {
     /** @var string */
     private string $key;
 
+    /**
+     * Initializes the component configuration.
+     */
     public function __construct(string $key) {
         if (strlen($key) < 32) {
             throw new \coding_exception('Insufficient destination-only pseudonymisation key');
@@ -47,6 +52,9 @@ final class mapper {
         return 'student-' . $this->token('user', $id) . '@example.invalid';
     }
 
+    /**
+     * Returns a fictional username.
+     */
     public function username(int $id): string {
         return 'sc_' . $this->token('user', $id);
     }

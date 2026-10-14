@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Fictional user and academic relational integrity tests.
@@ -24,8 +24,12 @@
 
 namespace local_sanitizedclone;
 
-defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Tests integration test behaviour.
+ *
+ * @covers \local_sanitizedclone\local\sanitizer\field_sanitizer
+ */
 final class integration_test extends \advanced_testcase {
     public function test_user_pseudonyms_preserve_primary_keys(): void {
         global $DB;
@@ -55,5 +59,7 @@ final class integration_test extends \advanced_testcase {
         $this->assertSame($mapper->email((int) $user->id), $updated->email);
         $this->assertSame('nologin', $updated->auth);
         $this->assertSame('*', $updated->password);
+        $this->assertLessThanOrEqual(20, strlen($updated->phone1));
+        $this->assertLessThanOrEqual(20, strlen($updated->phone2));
     }
 }

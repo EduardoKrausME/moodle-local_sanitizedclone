@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Transactional, keyset-based execution and checkpoint persistence.
@@ -24,18 +24,29 @@
 
 namespace local_sanitizedclone\local;
 
-defined('MOODLE_INTERNAL') || die();
 
+/**
+ * batch processor implementation.
+ */
 final class batch_processor {
+    /** @var int Maximum records per batch. */
     private const LIMIT = 100;
 
-    /** @return bool Whether the Moodle table exists. */
+    /**
+     * Checks whether a table exists.
+     *
+     * @return bool Whether the Moodle table exists.
+     */
     public static function exists(string $table): bool {
         global $DB;
         return $DB->get_manager()->table_exists(new \xmldb_table($table));
     }
 
-    /** @return string[] Columns as strings. */
+    /**
+     * Returns existing table columns.
+     *
+     * @return string[] Columns as strings.
+     */
     public static function columns(string $table): array {
         global $DB;
         if (!self::exists($table)) {
@@ -70,28 +81,35 @@ final class batch_processor {
                 break;
             }
             $started = microtime(true);
-            $tx = $DB->start_delegated_transaction();
+            // A nested rollback invalidates the caller's Moodle delegated transaction.
+        // The owner of an existing transaction must handle its rollback.
+        $tx = $DB->is_transaction_started() ? null : $DB->start_delegated_transaction();
             try {
-            $changed = 0;
-            foreach ($rows as $record) {
-                $update = $transform($record);
-                if ($update !== null) {
-                    if (!isset($update->id) || (int) $update->id !== (int) $record->id) {
-                        throw new \coding_exception('Sanitizer must preserve primary key');
+                $changed = 0;
+                foreach ($rows as $record) {
+                    $update = $transform($record);
+                    if ($update !== null) {
+                        if (!isset($update->id) || (int) $update->id !== (int) $record->id) {
+                            throw new \coding_exception('Sanitizer must preserve primary key');
+                        }
+                        $DB->update_record($table, $update);
+                        $changed++;
                     }
-                    $DB->update_record($table, $update);
-                    $changed++;
+                    $lastid = (int) $record->id;
                 }
-                $lastid = (int) $record->id;
-            }
-            $checkpoint->lastid = $lastid;
-            $checkpoint->processed += $changed;
-            $checkpoint->timemodified = time();
-            $DB->update_record('local_sanitizedclone_checkpoint', $checkpoint);
-            audit::record($operationid, 'batch', $step, $changed, (int) ((microtime(true) - $started) * 1000));
-            $tx->allow_commit();
+                $checkpoint->lastid = $lastid;
+                $checkpoint->processed += $changed;
+                $checkpoint->timemodified = time();
+                $DB->update_record('local_sanitizedclone_checkpoint', $checkpoint);
+                audit::record($operationid, 'batch', $step, $changed, (int) ((microtime(true) - $started) * 1000));
+                if ($tx !== null) {
+                    $tx->allow_commit();
+                }
             } catch (\Throwable $e) {
-                $tx->rollback($e);
+                if ($tx !== null) {
+                    $tx->rollback($e);
+                }
+                throw $e;
             }
         } while (count($rows) === self::LIMIT);
         if ($checkpoint->state !== 'done') {
@@ -113,21 +131,31 @@ final class batch_processor {
             return;
         }
         $started = microtime(true);
-        $tx = $DB->start_delegated_transaction();
+        // A nested rollback invalidates the caller's Moodle delegated transaction.
+        // The owner of an existing transaction must handle its rollback.
+        $tx = $DB->is_transaction_started() ? null : $DB->start_delegated_transaction();
         try {
-        $count = $DB->count_records($table);
-        $DB->delete_records($table);
-        $checkpoint->processed += $count;
-        $checkpoint->state = 'done';
-        $checkpoint->timemodified = time();
-        $DB->update_record('local_sanitizedclone_checkpoint', $checkpoint);
-        audit::record($operationid, 'deleted', $step, $count, (int) ((microtime(true) - $started) * 1000));
-        $tx->allow_commit();
+            $count = $DB->count_records($table);
+            $DB->delete_records($table);
+            $checkpoint->processed += $count;
+            $checkpoint->state = 'done';
+            $checkpoint->timemodified = time();
+            $DB->update_record('local_sanitizedclone_checkpoint', $checkpoint);
+            audit::record($operationid, 'deleted', $step, $count, (int) ((microtime(true) - $started) * 1000));
+            if ($tx !== null) {
+                $tx->allow_commit();
+            }
         } catch (\Throwable $e) {
-            $tx->rollback($e);
+            if ($tx !== null) {
+                $tx->rollback($e);
+            }
+            throw $e;
         }
     }
 
+    /**
+     * Loads or creates a checkpoint.
+     */
     public static function checkpoint(int $operationid, string $step): \stdClass {
         global $DB;
         $record = $DB->get_record('local_sanitizedclone_checkpoint', ['operationid' => $operationid, 'step' => $step]);
