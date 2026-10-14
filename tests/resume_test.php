@@ -30,10 +30,10 @@ final class resume_test extends \advanced_testcase {
     public function test_batch_failure_rolls_back_and_retry_is_idempotent(): void {
         global $DB;
         $this->resetAfterTest();
-        $profileid = $DB->insert_record('local_sc_profile', (object) [
+        $profileid = $DB->insert_record('local_sanitizedclone_profile', (object) [
             'name' => 'Example', 'configjson' => '{}', 'timecreated' => time(),
         ]);
-        $opid = $DB->insert_record('local_sc_operation', (object) [
+        $opid = $DB->insert_record('local_sanitizedclone_operation', (object) [
             'profileid' => $profileid, 'state' => 'pending',
             'planhash' => str_repeat('0', 64), 'destinationid' => 'destination1234',
             'configjson' => '{}', 'reportjson' => null,
@@ -41,24 +41,24 @@ final class resume_test extends \advanced_testcase {
         ]);
         try {
             \local_sanitizedclone\local\batch_processor::walk($opid, 'test:profiles',
-                'local_sc_profile', static function(\stdClass $row): \stdClass {
+                'local_sanitizedclone_profile', static function(\stdClass $row): \stdClass {
                     throw new \RuntimeException('simulated failure');
                 });
             $this->fail('Expected exception');
         } catch (\RuntimeException $expected) {
-            $this->assertSame('Example', $DB->get_field('local_sc_profile', 'name', ['id' => $profileid]));
+            $this->assertSame('Example', $DB->get_field('local_sanitizedclone_profile', 'name', ['id' => $profileid]));
         }
         \local_sanitizedclone\local\batch_processor::walk($opid, 'test:profiles',
-            'local_sc_profile', static function(\stdClass $row): \stdClass {
+            'local_sanitizedclone_profile', static function(\stdClass $row): \stdClass {
                 return (object) ['id' => $row->id, 'name' => 'Pseudonym'];
             });
         $first = \local_sanitizedclone\local\batch_processor::checkpoint($opid, 'test:profiles');
         $this->assertSame('done', $first->state);
         $this->assertSame(1, (int) $first->processed);
         \local_sanitizedclone\local\batch_processor::walk($opid, 'test:profiles',
-            'local_sc_profile', static function(\stdClass $row): \stdClass {
+            'local_sanitizedclone_profile', static function(\stdClass $row): \stdClass {
                 throw new \RuntimeException('must not rerun');
             });
-        $this->assertSame('Pseudonym', $DB->get_field('local_sc_profile', 'name', ['id' => $profileid]));
+        $this->assertSame('Pseudonym', $DB->get_field('local_sanitizedclone_profile', 'name', ['id' => $profileid]));
     }
 }

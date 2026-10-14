@@ -35,10 +35,10 @@ final class integration_test extends \advanced_testcase {
             'email' => 'fictional@example.invalid',
         ]);
         $mapper = new \local_sanitizedclone\local\mapper(str_repeat('A', 48));
-        $profileid = $DB->insert_record('local_sc_profile', (object) [
+        $profileid = $DB->insert_record('local_sanitizedclone_profile', (object) [
             'name' => 'Fixture', 'configjson' => '{}', 'timecreated' => time(),
         ]);
-        $opid = $DB->insert_record('local_sc_operation', (object) [
+        $opid = $DB->insert_record('local_sanitizedclone_operation', (object) [
             'profileid' => $profileid, 'state' => 'pending',
             'planhash' => str_repeat('0', 64), 'destinationid' => 'destination1234',
             'configjson' => '{}', 'reportjson' => null,

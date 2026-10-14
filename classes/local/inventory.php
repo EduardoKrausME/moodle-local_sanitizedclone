@@ -44,7 +44,7 @@ final class inventory {
         $known = [];
         $unknown = [];
         foreach ($DB->get_tables() as $table) {
-            if (str_starts_with($table, 'local_sc_')) {
+            if (str_starts_with($table, 'local_sanitizedclone_')) {
                 continue;
             }
             $count = (int) $DB->count_records($table);

@@ -74,14 +74,14 @@ final class files_sanitizer implements sanitizer_interface {
                 $checkpoint->processed++;
                 $checkpoint->lastid = $lastid;
                 $checkpoint->timemodified = time();
-                $DB->update_record('local_sc_checkpoint', $checkpoint);
+                $DB->update_record('local_sanitizedclone_checkpoint', $checkpoint);
             }
             $checkpoint->lastid = $lastid;
             $checkpoint->timemodified = time();
-            $DB->update_record('local_sc_checkpoint', $checkpoint);
+            $DB->update_record('local_sanitizedclone_checkpoint', $checkpoint);
         } while (count($records) === 100);
         $checkpoint->state = 'done';
         $checkpoint->timemodified = time();
-        $DB->update_record('local_sc_checkpoint', $checkpoint);
+        $DB->update_record('local_sanitizedclone_checkpoint', $checkpoint);
     }
 }

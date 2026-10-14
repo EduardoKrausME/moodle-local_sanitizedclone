@@ -37,7 +37,7 @@ if ($unknown || !$options['operation'] || !$options['attestation'] ||
 }
 try {
     $id = (int) $options['operation'];
-    $operation = $DB->get_record('local_sc_operation', ['id' => $id], '*', MUST_EXIST);
+    $operation = $DB->get_record('local_sanitizedclone_operation', ['id' => $id], '*', MUST_EXIST);
     \local_sanitizedclone\local\environment_guard::assert_safe(
         $options['attestation'], $operation->destinationid, true);
     if (!in_array($operation->state, ['approved', 'blocked', 'failed'], true) ||
@@ -52,8 +52,8 @@ try {
     try {
         $tx = $DB->start_delegated_transaction();
         try {
-        $DB->delete_records('local_sc_checkpoint', ['operationid' => $id]);
-        $DB->delete_records('local_sc_audit', ['operationid' => $id]);
+        $DB->delete_records('local_sanitizedclone_checkpoint', ['operationid' => $id]);
+        $DB->delete_records('local_sanitizedclone_audit', ['operationid' => $id]);
         $tx->allow_commit();
         } catch (\Throwable $e) {
             $tx->rollback($e);

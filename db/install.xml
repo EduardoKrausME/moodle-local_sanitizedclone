@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <XMLDB PATH="local/sanitizedclone/db" VERSION="20261014" COMMENT="Sanitized clone operations and profiles" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
   <TABLES>
-    <TABLE NAME="local_sc_profile" COMMENT="Reusable non-sensitive policies">
+    <TABLE NAME="local_sanitizedclone_profile" COMMENT="Reusable non-sensitive policies">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="name" TYPE="char" LENGTH="120" NOTNULL="true" SEQUENCE="false"/>
@@ -10,7 +10,7 @@
       </FIELDS>
       <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
     </TABLE>
-    <TABLE NAME="local_sc_operation" COMMENT="Authorisations and execution state with no data values">
+    <TABLE NAME="local_sanitizedclone_operation" COMMENT="Authorisations and execution state with no data values">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="profileid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
@@ -26,11 +26,11 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="profilefk" TYPE="foreign" FIELDS="profileid" REFTABLE="local_sc_profile" REFFIELDS="id"/>
+        <KEY NAME="profilefk" TYPE="foreign" FIELDS="profileid" REFTABLE="local_sanitizedclone_profile" REFFIELDS="id"/>
       </KEYS>
       <INDEXES><INDEX NAME="stateidx" UNIQUE="false" FIELDS="state"/></INDEXES>
     </TABLE>
-    <TABLE NAME="local_sc_checkpoint" COMMENT="Checkpoint per operation and sanitized source table">
+    <TABLE NAME="local_sanitizedclone_checkpoint" COMMENT="Checkpoint per operation and sanitized source table">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="operationid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
@@ -42,11 +42,11 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="operationfk" TYPE="foreign" FIELDS="operationid" REFTABLE="local_sc_operation" REFFIELDS="id"/>
+        <KEY NAME="operationfk" TYPE="foreign" FIELDS="operationid" REFTABLE="local_sanitizedclone_operation" REFFIELDS="id"/>
       </KEYS>
       <INDEXES><INDEX NAME="stepunique" UNIQUE="true" FIELDS="operationid, step"/></INDEXES>
     </TABLE>
-    <TABLE NAME="local_sc_audit" COMMENT="Non-sensitive operation events and counts">
+    <TABLE NAME="local_sanitizedclone_audit" COMMENT="Non-sensitive operation events and counts">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="operationid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
@@ -58,7 +58,7 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="operationfk" TYPE="foreign" FIELDS="operationid" REFTABLE="local_sc_operation" REFFIELDS="id"/>
+        <KEY NAME="operationfk" TYPE="foreign" FIELDS="operationid" REFTABLE="local_sanitizedclone_operation" REFFIELDS="id"/>
       </KEYS>
       <INDEXES><INDEX NAME="opidx" UNIQUE="false" FIELDS="operationid"/></INDEXES>
     </TABLE>

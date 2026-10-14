@@ -56,7 +56,7 @@ if ($action !== '') {
         foreach (\local_sanitizedclone\local\policy::STAGES as $stage) {
             $settings[$stage] = (bool) optional_param('stage_' . $stage, 0, PARAM_BOOL);
         }
-        $selected = $DB->insert_record('local_sc_profile', (object) [
+        $selected = $DB->insert_record('local_sanitizedclone_profile', (object) [
             'name' => $name,
             'configjson' => json_encode($settings, JSON_THROW_ON_ERROR),
             'timecreated' => time(),
@@ -77,7 +77,7 @@ if ($action !== '') {
     redirect(new moodle_url('/local/sanitizedclone/index.php', ['profileid' => $selected]));
 }
 
-$profiles = $DB->get_records('local_sc_profile', null, 'name ASC');
+$profiles = $DB->get_records('local_sanitizedclone_profile', null, 'name ASC');
 $stageoptions = [];
 foreach (\local_sanitizedclone\local\policy::STAGES as $stage) {
     $stageoptions[] = ['field' => 'stage_' . $stage,
@@ -90,8 +90,8 @@ foreach ($profiles as $profile) {
             ['profileid' => $profile->id]))->out(false)];
 }
 $operations = [];
-foreach ($DB->get_records('local_sc_operation', null, 'id DESC', '*', 0, 50) as $operation) {
-    $checkpoints = $DB->get_records('local_sc_checkpoint', ['operationid' => $operation->id], 'step ASC');
+foreach ($DB->get_records('local_sanitizedclone_operation', null, 'id DESC', '*', 0, 50) as $operation) {
+    $checkpoints = $DB->get_records('local_sanitizedclone_checkpoint', ['operationid' => $operation->id], 'step ASC');
     $operations[] = [
         'id' => $operation->id, 'state' => $operation->state,
         'destinationid' => s($operation->destinationid),
@@ -104,7 +104,7 @@ foreach ($DB->get_records('local_sc_operation', null, 'id DESC', '*', 0, 50) as 
 }
 $preview = null;
 if ($selected) {
-    $profile = $DB->get_record('local_sc_profile', ['id' => $selected], '*', MUST_EXIST);
+    $profile = $DB->get_record('local_sanitizedclone_profile', ['id' => $selected], '*', MUST_EXIST);
     $settings = \local_sanitizedclone\local\policy::normalize(
         json_decode($profile->configjson, true, 512, JSON_THROW_ON_ERROR));
     $plan = \local_sanitizedclone\local\planner::create($settings);

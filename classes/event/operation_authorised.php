@@ -30,7 +30,7 @@ final class operation_authorised extends \core\event\base {
     protected function init(): void {
         $this->data['crud'] = 'c';
         $this->data['edulevel'] = self::LEVEL_OTHER;
-        $this->data['objecttable'] = 'local_sc_operation';
+        $this->data['objecttable'] = 'local_sanitizedclone_operation';
     }
 
     public static function get_name(): string {

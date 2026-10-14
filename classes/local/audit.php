@@ -30,7 +30,7 @@ final class audit {
     public static function record(int $operationid, string $event, string $step = '',
             int $quantity = 0, int $durationms = 0): void {
         global $DB;
-        $DB->insert_record('local_sc_audit', (object) [
+        $DB->insert_record('local_sanitizedclone_audit', (object) [
             'operationid' => $operationid,
             'eventtype' => substr($event, 0, 40),
             'step' => substr($step, 0, 100),

@@ -66,7 +66,7 @@ final class batch_processor {
             if (!$rows) {
                 $checkpoint->state = 'done';
                 $checkpoint->timemodified = time();
-                $DB->update_record('local_sc_checkpoint', $checkpoint);
+                $DB->update_record('local_sanitizedclone_checkpoint', $checkpoint);
                 break;
             }
             $started = microtime(true);
@@ -87,7 +87,7 @@ final class batch_processor {
             $checkpoint->lastid = $lastid;
             $checkpoint->processed += $changed;
             $checkpoint->timemodified = time();
-            $DB->update_record('local_sc_checkpoint', $checkpoint);
+            $DB->update_record('local_sanitizedclone_checkpoint', $checkpoint);
             audit::record($operationid, 'batch', $step, $changed, (int) ((microtime(true) - $started) * 1000));
             $tx->allow_commit();
             } catch (\Throwable $e) {
@@ -97,7 +97,7 @@ final class batch_processor {
         if ($checkpoint->state !== 'done') {
             $checkpoint->state = 'done';
             $checkpoint->timemodified = time();
-            $DB->update_record('local_sc_checkpoint', $checkpoint);
+            $DB->update_record('local_sanitizedclone_checkpoint', $checkpoint);
         }
     }
 
@@ -120,7 +120,7 @@ final class batch_processor {
         $checkpoint->processed += $count;
         $checkpoint->state = 'done';
         $checkpoint->timemodified = time();
-        $DB->update_record('local_sc_checkpoint', $checkpoint);
+        $DB->update_record('local_sanitizedclone_checkpoint', $checkpoint);
         audit::record($operationid, 'deleted', $step, $count, (int) ((microtime(true) - $started) * 1000));
         $tx->allow_commit();
         } catch (\Throwable $e) {
@@ -130,7 +130,7 @@ final class batch_processor {
 
     public static function checkpoint(int $operationid, string $step): \stdClass {
         global $DB;
-        $record = $DB->get_record('local_sc_checkpoint', ['operationid' => $operationid, 'step' => $step]);
+        $record = $DB->get_record('local_sanitizedclone_checkpoint', ['operationid' => $operationid, 'step' => $step]);
         if ($record) {
             return $record;
         }
@@ -138,7 +138,7 @@ final class batch_processor {
             'operationid' => $operationid, 'step' => $step, 'lastid' => 0,
             'processed' => 0, 'state' => 'pending', 'timemodified' => time(),
         ];
-        $record->id = $DB->insert_record('local_sc_checkpoint', $record);
+        $record->id = $DB->insert_record('local_sanitizedclone_checkpoint', $record);
         return $record;
     }
 }

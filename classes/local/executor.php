@@ -30,7 +30,7 @@ final class executor {
     /** @return array Technical manifest without record data. */
     public static function run(int $operationid, string $attestationfile, bool $confirmed): array {
         global $DB;
-        $operation = $DB->get_record('local_sc_operation', ['id' => $operationid], '*', MUST_EXIST);
+        $operation = $DB->get_record('local_sanitizedclone_operation', ['id' => $operationid], '*', MUST_EXIST);
         // No destructive call before environment proof has been checked.
         $key = environment_guard::assert_safe($attestationfile, $operation->destinationid, $confirmed);
         if (!in_array($operation->state, ['pending', 'failed', 'blocked'], true)) {
@@ -46,7 +46,7 @@ final class executor {
         }
         try {
             // Re-fetch inside lock, avoid two CLI processes racing against a stale state.
-            $operation = $DB->get_record('local_sc_operation', ['id' => $operationid], '*', MUST_EXIST);
+            $operation = $DB->get_record('local_sanitizedclone_operation', ['id' => $operationid], '*', MUST_EXIST);
             if (!in_array($operation->state, ['pending', 'failed', 'blocked'], true)) {
                 throw new \moodle_exception('invalidstate', 'local_sanitizedclone');
             }
@@ -60,7 +60,7 @@ final class executor {
             if (!$operation->timestarted) {
                 $operation->timestarted = time();
             }
-            $DB->update_record('local_sc_operation', $operation);
+            $DB->update_record('local_sanitizedclone_operation', $operation);
             audit::record($operationid, 'started');
             \local_sanitizedclone\event\operation_started::create([
                 'context' => \context_system::instance(), 'objectid' => $operationid,
@@ -79,7 +79,7 @@ final class executor {
                 $operation->state = $report['approved'] ? 'approved' : 'blocked';
                 $operation->reportjson = json_encode($report, JSON_THROW_ON_ERROR);
                 $operation->timefinished = time();
-                $DB->update_record('local_sc_operation', $operation);
+                $DB->update_record('local_sanitizedclone_operation', $operation);
                 audit::record($operationid, $operation->state);
                 \local_sanitizedclone\event\operation_finished::create([
                     'context' => \context_system::instance(), 'objectid' => $operationid,
@@ -89,7 +89,7 @@ final class executor {
                 // Exception messages may include row data, paths, or secrets: never persist them.
                 $operation->state = 'failed';
                 $operation->reportjson = json_encode(['error_class' => get_class($exception)], JSON_THROW_ON_ERROR);
-                $DB->update_record('local_sc_operation', $operation);
+                $DB->update_record('local_sanitizedclone_operation', $operation);
                 audit::record($operationid, 'failed');
                 throw $exception;
             }

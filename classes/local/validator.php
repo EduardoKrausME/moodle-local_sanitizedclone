@@ -30,9 +30,9 @@ final class validator {
     /** @return array Non-sensitive, JSON-serialisable manifesto. */
     public static function verify(int $operationid): array {
         global $DB;
-        $operation = $DB->get_record('local_sc_operation', ['id' => $operationid], '*', MUST_EXIST);
+        $operation = $DB->get_record('local_sanitizedclone_operation', ['id' => $operationid], '*', MUST_EXIST);
         $inventory = inventory::collect();
-        $checkpoints = $DB->get_records('local_sc_checkpoint', ['operationid' => $operationid], 'step ASC');
+        $checkpoints = $DB->get_records('local_sanitizedclone_checkpoint', ['operationid' => $operationid], 'step ASC');
         $stages = [];
         $incomplete = 0;
         foreach ($checkpoints as $checkpoint) {

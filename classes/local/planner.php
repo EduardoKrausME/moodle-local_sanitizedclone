@@ -48,7 +48,7 @@ final class planner {
     /** Destination identifier is a public label, not a secret. */
     public static function authorize(int $profileid, string $destinationid): int {
         global $DB;
-        $profile = $DB->get_record('local_sc_profile', ['id' => $profileid], '*', MUST_EXIST);
+        $profile = $DB->get_record('local_sanitizedclone_profile', ['id' => $profileid], '*', MUST_EXIST);
         $settings = policy::normalize(json_decode($profile->configjson, true, 512, JSON_THROW_ON_ERROR));
         $plan = self::create($settings);
         $record = (object) [
@@ -63,7 +63,7 @@ final class planner {
             'timestarted' => null,
             'timefinished' => null,
         ];
-        $id = $DB->insert_record('local_sc_operation', $record);
+        $id = $DB->insert_record('local_sanitizedclone_operation', $record);
         audit::record($id, 'approved', 'plan');
         \local_sanitizedclone\event\operation_authorised::create([
             'context' => \context_system::instance(), 'objectid' => $id,
