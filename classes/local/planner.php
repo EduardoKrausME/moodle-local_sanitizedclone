@@ -56,13 +56,13 @@ final class planner {
     }
 
     /**
-     * Authorizes the reviewed plan for a specified destination.
+     * Authorizes a sanitization plan for a specific destination.
      *
      * The destination identifier is a public label, not a secret.
      *
-     * @param int $profileid Sanitization profile ID.
-     * @param string $destinationid Destination identifier.
-     * @return int Authorized operation ID.
+     * @param int $profileid Profile identifier.
+     * @param string $destinationid Public destination identifier.
+     * @return int Authorized operation identifier.
      */
     public static function authorize(int $profileid, string $destinationid): int {
         global $DB;

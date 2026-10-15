@@ -119,11 +119,13 @@ final class batch_processor {
     }
 
     /**
-     * Deletes approved non-academic ephemeral records idempotently.
+     * Deletes records idempotently with checkpoint tracking.
      *
-     * @param int $operationid Operation ID.
-     * @param string $step Checkpoint step.
-     * @param string $table Database table.
+     * This operation is reserved for non-academic ephemeral data only.
+     *
+     * @param int $operationid Sanitization operation identifier.
+     * @param string $step Checkpoint stage name.
+     * @param string $table Table to clear.
      */
     public static function clear(int $operationid, string $step, string $table): void {
         global $DB;

@@ -43,21 +43,25 @@ final class mapper {
     }
 
     /**
-     * Generates a pseudonym token stable across resumptions with the same key.
+     * Generates a deterministic pseudonym token.
      *
-     * @param string $scope Pseudonym namespace.
-     * @param int $id Record identifier.
-     * @return string Deterministic token.
+     * The token is stable across resumptions with the same destination key.
+     *
+     * @param string $scope Token namespace.
+     * @param int $id Original record identifier.
+     * @return string Pseudonym token.
      */
     public function token(string $scope, int $id): string {
         return substr(hash_hmac('sha256', $scope . ':' . $id, $this->key), 0, 24);
     }
 
     /**
-     * Generates a fictional email under the RFC 2606 reserved domain.
+     * Generates a pseudonymous email using a reserved domain.
      *
-     * @param int $id User identifier.
-     * @return string Placeholder address.
+     * The example.invalid domain is reserved under RFC 2606.
+     *
+     * @param int $id Original user identifier.
+     * @return string Pseudonymous email.
      */
     public function email(int $id): string {
         return 'student-' . $this->token('user', $id) . '@example.invalid';

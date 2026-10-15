@@ -26,7 +26,9 @@ namespace local_sanitizedclone\local;
 
 
 /**
- * Defines the immutable and explicitly versioned sanitization profile shape.
+ * Defines the immutable, versioned sanitization profile policy.
+ *
+ * Every required stage must be explicitly present in a profile.
  */
 final class policy {
     /** @var string[] Fixed set of sanitization stages. */
