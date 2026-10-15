@@ -118,7 +118,13 @@ final class batch_processor {
         }
     }
 
-    /** Delete all rows idempotently; reserved for non-academic ephemeral data only. */
+    /**
+     * Deletes approved non-academic ephemeral records idempotently.
+     *
+     * @param int $operationid Operation ID.
+     * @param string $step Checkpoint step.
+     * @param string $table Database table.
+     */
     public static function clear(int $operationid, string $step, string $table): void {
         global $DB;
         if (!self::exists($table)) {

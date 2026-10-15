@@ -55,7 +55,15 @@ final class planner {
         return hash('sha256', json_encode($plan, JSON_THROW_ON_ERROR));
     }
 
-    /** Destination identifier is a public label, not a secret. */
+    /**
+     * Authorizes the reviewed plan for a specified destination.
+     *
+     * The destination identifier is a public label, not a secret.
+     *
+     * @param int $profileid Sanitization profile ID.
+     * @param string $destinationid Destination identifier.
+     * @return int Authorized operation ID.
+     */
     public static function authorize(int $profileid, string $destinationid): int {
         global $DB;
         $profile = $DB->get_record('local_sanitizedclone_profile', ['id' => $profileid], '*', MUST_EXIST);

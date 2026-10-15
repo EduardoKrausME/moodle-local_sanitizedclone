@@ -42,12 +42,23 @@ final class mapper {
         $this->key = $key;
     }
 
-    /** Stable across resumptions with same destination key. */
+    /**
+     * Generates a pseudonym token stable across resumptions with the same key.
+     *
+     * @param string $scope Pseudonym namespace.
+     * @param int $id Record identifier.
+     * @return string Deterministic token.
+     */
     public function token(string $scope, int $id): string {
         return substr(hash_hmac('sha256', $scope . ':' . $id, $this->key), 0, 24);
     }
 
-    /** Domain is reserved under RFC 2606. */
+    /**
+     * Generates a fictional email under the RFC 2606 reserved domain.
+     *
+     * @param int $id User identifier.
+     * @return string Placeholder address.
+     */
     public function email(int $id): string {
         return 'student-' . $this->token('user', $id) . '@example.invalid';
     }

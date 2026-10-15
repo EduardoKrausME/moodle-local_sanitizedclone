@@ -29,7 +29,11 @@ namespace local_sanitizedclone\local\sanitizer;
  * sanitizer interface implementation.
  */
 interface sanitizer_interface {
-    /** Stable checkpoint/manifest stage name. */
+    /**
+     * Returns the stable sanitization stage name for checkpoints and manifests.
+     *
+     * @return string Stage name.
+     */
     public function name(): string;
 
     /**
@@ -39,6 +43,10 @@ interface sanitizer_interface {
      */
     public function execute(int $operationid, \local_sanitizedclone\local\mapper $mapper): void;
 
-    /** Tables for which this component takes full responsibility. */
+    /**
+     * Lists the tables fully handled by this sanitizer.
+     *
+     * @return string[] Table names.
+     */
     public function tables(): array;
 }

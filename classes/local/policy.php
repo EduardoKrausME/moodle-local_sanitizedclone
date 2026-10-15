@@ -25,7 +25,9 @@
 namespace local_sanitizedclone\local;
 
 
-/** Immutable and explicitly versioned profile shape. */
+/**
+ * Defines the immutable and explicitly versioned sanitization profile shape.
+ */
 final class policy {
     /** @var string[] Fixed set of sanitization stages. */
     public const STAGES = ['users', 'customfields', 'messages', 'forums', 'assignments', 'logs', 'credentials', 'secrets', 'files'];
