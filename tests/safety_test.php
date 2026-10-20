@@ -31,11 +31,21 @@ namespace local_sanitizedclone;
  * @covers \local_sanitizedclone\local\environment_guard
  */
 final class safety_test extends \advanced_testcase {
+    /**
+     * Method test_missing_explicit_confirmation_refuses_execution.
+     *
+     * @return void Return value.
+     */
     public function test_missing_explicit_confirmation_refuses_execution(): void {
         $this->expectException(\moodle_exception::class);
         \local_sanitizedclone\local\environment_guard::assert_safe('/tmp/missing.json', 'destination1234', false);
     }
 
+    /**
+     * Method test_attestation_cannot_be_missing_even_when_confirmed.
+     *
+     * @return void Return value.
+     */
     public function test_attestation_cannot_be_missing_even_when_confirmed(): void {
         $this->expectException(\moodle_exception::class);
         \local_sanitizedclone\local\environment_guard::assert_safe('/tmp/missing.json', 'destination1234', true);

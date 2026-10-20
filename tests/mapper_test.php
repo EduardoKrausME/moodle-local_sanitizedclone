@@ -31,6 +31,11 @@ namespace local_sanitizedclone;
  * @covers \local_sanitizedclone\local\mapper
  */
 final class mapper_test extends \advanced_testcase {
+    /**
+     * Method test_identifiers_are_stable_unique_and_use_reserved_domain.
+     *
+     * @return void Return value.
+     */
     public function test_identifiers_are_stable_unique_and_use_reserved_domain(): void {
         $mapper = new \local_sanitizedclone\local\mapper(str_repeat('x', 48));
         $this->assertSame($mapper->username(10), $mapper->username(10));
@@ -40,6 +45,11 @@ final class mapper_test extends \advanced_testcase {
         $this->assertSame($mapper->email(10), $mapper->email(10));
     }
 
+    /**
+     * Method test_destination_key_is_required.
+     *
+     * @return void Return value.
+     */
     public function test_destination_key_is_required(): void {
         $this->expectException(\coding_exception::class);
         new \local_sanitizedclone\local\mapper('short');

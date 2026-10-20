@@ -31,6 +31,11 @@ namespace local_sanitizedclone;
  * @covers \local_sanitizedclone\local\batch_processor
  */
 final class resume_test extends \advanced_testcase {
+    /**
+     * Method test_batch_failure_rolls_back_and_retry_is_idempotent.
+     *
+     * @return void Return value.
+     */
     public function test_batch_failure_rolls_back_and_retry_is_idempotent(): void {
         global $DB;
         $this->resetAfterTest();

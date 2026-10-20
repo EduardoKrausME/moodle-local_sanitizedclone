@@ -31,6 +31,11 @@ namespace local_sanitizedclone;
  * @covers \local_sanitizedclone\local\sanitizer\field_sanitizer
  */
 final class integration_test extends \advanced_testcase {
+    /**
+     * Method test_user_pseudonyms_preserve_primary_keys.
+     *
+     * @return void Return value.
+     */
     public function test_user_pseudonyms_preserve_primary_keys(): void {
         global $DB;
         $this->resetAfterTest();
