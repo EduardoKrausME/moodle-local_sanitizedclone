@@ -48,7 +48,7 @@ if ($action !== '') {
     if ($action === 'create') {
         require_capability('local/sanitizedclone:manageprofiles', $context);
         $name = trim(required_param('name', PARAM_TEXT));
-        if ($name === '' || core_text::strlen($name) > 120) {
+        if ($name === '' || strlen($name) > 120) {
             throw new moodle_exception('invalidprofilename', 'local_sanitizedclone');
         }
         // Explicit profile toggles are immutable after an operation is approved.
