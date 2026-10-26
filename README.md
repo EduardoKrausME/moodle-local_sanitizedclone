@@ -29,21 +29,6 @@ A successful PHP run does not imply a safe data set.
   fail-closed inventory, elementary relational integrity queries and JSON manifest.
 - Separate CLI cleanup for audit/checkpoints after 30 days; operation manifests remain.
 
-## Installation
-
-Copy the folder as `local/sanitizedclone` in a Moodle 4.5+ installation and run
-`php admin/cli/upgrade.php --non-interactive` **on an isolated clone only**. Restrict
-`local/sanitizedclone:manageprofiles` and `local/sanitizedclone:authorize` to
-trusted administrators; no archetype has these two capabilities by default.
-After installation, open **Site administration > Server > Sanitized clone**.
-
-**Never install a production database clone on a publicly reachable host before
-restricting its network, egress, access credentials and background tasks.**
-Copying production DB, Moodledata, file storage, object buckets, or `config.php`
-already entails handling sensitive data; this plugin does not make that copying safe.
-Use separate databases, credentials, buckets, encryption keys and hosts, and disable
-outbound email, integrations and cron in the clone before importing data.
-
 ## Independent destination attestation
 
 1. Provision a new, private destination with a separately named database and dataroot,
